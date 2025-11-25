@@ -1,72 +1,75 @@
-# Design Wand
+# 🎨 Design Wand
 
-A Model Context Protocol (MCP) server for Figma workflow automation. Get file details, list components, export assets, manage styles, and track comments.
+**AI-powered Figma workflow automation - get file details, list components, export assets, manage styles, and track comments**
 
-## Overview
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![MCP](https://img.shields.io/badge/MCP-Compatible-green)](https://github.com/anthropics/mcp)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js)](https://nodejs.org/)
+[![Figma](https://img.shields.io/badge/Figma-Compatible-F24E1E?logo=figma)](https://www.figma.com/)
 
-Design Wand connects your AI assistant to Figma, enabling seamless design system management and asset workflows. Query your design files, export assets at multiple scales, and track design review comments.
+---
 
-### Why Use Design Wand?
+## 🤔 The Design Workflow Challenge
 
-**Traditional workflow:**
-- Open Figma, navigate to file
-- Manually select and export assets one by one
-- Copy node IDs from the UI
-- Check comments in separate panel
+**"Exporting assets and tracking design changes is tedious"**
 
-**With Design Wand:**
-```
-"List all components in my design system file"
-"Export the header icons at 2x scale as PNG"
-"What comments are unresolved on this file?"
-"Get the document structure of my landing page design"
-```
+Design system management involves constant switching between Figma and your codebase - exporting icons, tracking comments, listing components.
 
-## Features
+- 🖱️ Manually navigating design files
+- 📦 Exporting assets one by one
+- 💬 Checking comments in separate panels
+- 🔍 Finding component IDs for integration
 
-- **File Inspection** - Get file metadata and document structure
-- **Component Discovery** - List all components with keys and metadata
-- **Asset Export** - Export nodes as PNG, JPG, SVG, or PDF at multiple scales
-- **Style Management** - Update style names and descriptions
-- **Comment Tracking** - Retrieve and review design comments
+**Design Wand brings Figma to your conversation** - query files, export assets, and track feedback without leaving your editor.
 
-## Installation
+---
+
+## ✨ Features
+
+| Feature | Description |
+|---------|-------------|
+| 📁 **File Inspection** | Get file metadata and document structure |
+| 🧱 **Component Discovery** | List all components with keys and metadata |
+| 📤 **Asset Export** | Export nodes as PNG, JPG, SVG, or PDF at multiple scales |
+| 🎨 **Style Management** | Update style names and descriptions |
+| 💬 **Comment Tracking** | Retrieve and review design comments |
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+
+- Figma account with Personal Access Token
+- Claude Desktop
+
+### Installation
 
 ```bash
-# Clone the repository
 git clone https://github.com/consigcody94/design-wand.git
 cd design-wand
-
-# Install dependencies
 npm install
-
-# Build the project
 npm run build
 ```
 
-## Configuration
-
-### Getting Your Figma Token
+### Get Your Figma Token
 
 1. Log in to [Figma](https://www.figma.com/)
 2. Click your profile icon → Settings
 3. Scroll to "Personal access tokens"
 4. Click "Generate new token"
-5. Give it a description and copy the token (starts with `figd_`)
+5. Copy the token (starts with `figd_`)
 
-### Finding File Keys
+### Configure Claude Desktop
 
-The file key is in the Figma URL:
+Add to your config file:
 
-```
-https://www.figma.com/file/ABC123DEF456/My-Design-File
-                            ^^^^^^^^^^^^
-                            This is the file key
-```
-
-### Claude Desktop Integration
-
-Add to your `claude_desktop_config.json`:
+| Platform | Path |
+|----------|------|
+| macOS | `~/Library/Application Support/Claude/claude_desktop_config.json` |
+| Windows | `%APPDATA%\Claude\claude_desktop_config.json` |
+| Linux | `~/.config/Claude/claude_desktop_config.json` |
 
 ```json
 {
@@ -79,73 +82,99 @@ Add to your `claude_desktop_config.json`:
 }
 ```
 
-**Config file locations:**
-- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
-- Linux: `~/.config/Claude/claude_desktop_config.json`
+### Restart Claude Desktop
+Completely quit and reopen Claude Desktop to load the MCP server.
 
-## Tools Reference
+---
+
+## 💬 Usage Examples
+
+### Inspect Design Files
+```
+"Get the document structure of my landing page design"
+→ Returns file metadata, pages, frames, component count
+
+"What's the latest version of the design system file?"
+→ Shows version info and last modified timestamp
+```
+
+### Export Assets
+```
+"Export the header icons at 2x scale as PNG"
+→ Generates download URLs for specified nodes
+
+"Get all button components as SVG"
+→ Exports vector assets for web use
+```
+
+### Manage Components
+```
+"List all components in my design system file"
+→ Returns components with keys, names, and node IDs
+
+"Find the icon components in the file"
+→ Lists matching components for export
+```
+
+### Track Feedback
+```
+"What comments are unresolved on this file?"
+→ Returns unresolved comments with context and authors
+
+"Show me all design review comments"
+→ Lists all comments with resolution status
+```
+
+---
+
+## 🛠️ Available Tools
+
+| Tool | Description |
+|------|-------------|
+| `get_file` | Get Figma file details and document structure |
+| `list_components` | List all components in a Figma file |
+| `export_assets` | Export nodes/assets from Figma as images |
+| `update_styles` | Update style definitions in a Figma file |
+| `get_comments` | Get all comments from a Figma file |
+
+---
+
+## 📊 Tool Details
 
 ### get_file
 
 Get Figma file details and document structure.
-
-**Parameters:**
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `fileKey` | string | Yes | Figma file key from URL |
 | `token` | string | Yes | Figma personal access token |
 
-**Example:**
-
-```json
-{
-  "fileKey": "ABC123DEF456",
-  "token": "figd_your_token_here"
-}
-```
-
 **Response includes:**
 - File name and version
 - Last modified timestamp
 - Thumbnail URL
 - Document structure (pages, frames)
-- Component count
-- Style count
+- Component and style counts
 
 ### list_components
 
 List all components in a Figma file.
-
-**Parameters:**
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `fileKey` | string | Yes | Figma file key |
 | `token` | string | Yes | Figma personal access token |
 
-**Example:**
-
-```json
-{
-  "fileKey": "ABC123DEF456",
-  "token": "figd_your_token_here"
-}
-```
-
 **Response includes:**
 - Component key (for referencing)
 - Component name
 - Description
 - Node ID (for export)
-- Creation and update timestamps
 
 ### export_assets
 
 Export nodes/assets from Figma as images.
-
-**Parameters:**
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -155,39 +184,13 @@ Export nodes/assets from Figma as images.
 | `scale` | number | No | Scale factor 1-4 (default: 1) |
 | `token` | string | Yes | Figma personal access token |
 
-**Example - Export icons as PNG at 2x:**
-
-```json
-{
-  "fileKey": "ABC123DEF456",
-  "nodeIds": ["1:2", "1:3", "1:4"],
-  "format": "png",
-  "scale": 2,
-  "token": "figd_your_token_here"
-}
-```
-
-**Example - Export as SVG:**
-
-```json
-{
-  "fileKey": "ABC123DEF456",
-  "nodeIds": ["5:10"],
-  "format": "svg",
-  "token": "figd_your_token_here"
-}
-```
-
 **Response includes:**
 - Format and scale used
-- Node count
-- Download URLs for each exported node (valid for ~30 days)
+- Download URLs for each node (valid ~30 days)
 
 ### update_styles
 
 Update style definitions in a Figma file.
-
-**Parameters:**
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -197,66 +200,52 @@ Update style definitions in a Figma file.
 | `description` | string | No | New description |
 | `token` | string | Yes | Figma personal access token |
 
-**Example:**
-
-```json
-{
-  "fileKey": "ABC123DEF456",
-  "styleKey": "S:abc123def456",
-  "name": "Primary/Button/Hover",
-  "description": "Primary button hover state - use for interactive elements",
-  "token": "figd_your_token_here"
-}
-```
-
 ### get_comments
 
 Get all comments from a Figma file.
-
-**Parameters:**
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `fileKey` | string | Yes | Figma file key |
 | `token` | string | Yes | Figma personal access token |
 
-**Example:**
-
-```json
-{
-  "fileKey": "ABC123DEF456",
-  "token": "figd_your_token_here"
-}
-```
-
 **Response includes:**
 - Total comment count
 - Resolved vs unresolved counts
-- For each comment:
-  - Comment ID and message
-  - User info (name, avatar)
-  - Created timestamp
-  - Resolution status
-  - Node ID and position (if pinned to element)
+- Comment messages, authors, timestamps
 
-## Finding Node IDs
+---
 
-### Method 1: Via Figma UI
+## 🔑 Finding IDs
+
+### File Key
+From URL: `https://www.figma.com/file/ABC123DEF456/My-Design-File`
+
+The file key is: `ABC123DEF456`
+
+### Node ID
 1. Select a layer in Figma
 2. Right-click → "Copy/Paste" → "Copy link"
-3. The URL contains the node ID: `...?node-id=1:2`
-
-### Method 2: Via get_file
-Use `get_file` to explore the document tree and find node IDs.
-
-### Method 3: Component Keys
-Use `list_components` to get component node IDs directly.
+3. URL contains: `...?node-id=1:2`
 
 ### Node ID Format
 - Simple: `"1:2"`, `"23:456"`
 - URL-encoded: `"1%3A2"` (colon = `%3A`)
 
-## Workflow Examples
+---
+
+## 📤 Export Format Guide
+
+| Format | Best For | Supports Scale |
+|--------|----------|----------------|
+| `png` | Raster images, icons | Yes (1-4x) |
+| `jpg` | Photos, complex images | Yes (1-4x) |
+| `svg` | Vector graphics, icons | No (vector) |
+| `pdf` | Documents, print | No |
+
+---
+
+## 🎯 Workflow Examples
 
 ### Design System Audit
 
@@ -286,11 +275,6 @@ Use `list_components` to get component node IDs directly.
    ```
    export_assets with format: "png", scale: 1, ...
    export_assets with format: "png", scale: 2, ...
-   export_assets with format: "png", scale: 3, ...
-   ```
-
-3. **Export as SVG for web:**
-   ```
    export_assets with format: "svg", ...
    ```
 
@@ -306,9 +290,9 @@ Use `list_components` to get component node IDs directly.
    get_file with fileKey: "ABC123", token: "figd_..."
    ```
 
-## API Rate Limits
+---
 
-Figma API has rate limits:
+## ⚡ API Rate Limits
 
 | Plan | Limit |
 |------|-------|
@@ -316,64 +300,61 @@ Figma API has rate limits:
 | Professional | ~100 requests/minute |
 | Organization | Higher limits |
 
-If you hit rate limits:
+**If you hit limits:**
 - Wait 60 seconds before retrying
 - Batch node IDs in export requests (up to ~500 per request)
 - Cache responses when possible
 
-## Export Format Guide
+---
 
-| Format | Best For | Supports Scale |
-|--------|----------|----------------|
-| `png` | Raster images, icons | Yes (1-4x) |
-| `jpg` | Photos, complex images | Yes (1-4x) |
-| `svg` | Vector graphics, icons | No (vector) |
-| `pdf` | Documents, print | No |
+## 🔒 Security Notes
 
-## Requirements
+| Principle | Description |
+|-----------|-------------|
+| Never commit tokens | Keep tokens out of version control |
+| Full file access | Tokens access files you can view |
+| Rotate regularly | Change tokens periodically |
+| Separate tokens | Use different tokens for different apps |
+
+---
+
+## 🐛 Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| "Figma API error (403)" | Verify token is valid and has file access |
+| "Node not found" | Check node ID format (`"1:2"` not `"1%3A2"`) |
+| Export URLs expired | Re-run export for fresh URLs (~30 day validity) |
+| Missing components | Components must be published to file library |
+
+---
+
+## 📋 Requirements
 
 - Node.js 18 or higher
 - Figma account
 - Personal access token
 
-## Troubleshooting
+---
 
-### "Figma API error (403)"
-
-1. Verify your token is valid and not expired
-2. Ensure you have access to the file
-3. Check if the file is in a team you belong to
-
-### "Node not found"
-
-1. Verify the node ID format (should be `"1:2"` not `"1%3A2"`)
-2. Ensure the node exists in the current file version
-3. Check if the node is in a different page
-
-### Export URLs expired
-
-Export URLs are temporary (~30 days). Re-run the export to get fresh URLs.
-
-### Missing components
-
-1. Components must be published to the file's component library
-2. Check if components are in a different file (linked library)
-
-## Security Notes
-
-- Never commit tokens to version control
-- Tokens have read/write access to files you can access
-- Rotate tokens periodically
-- Use separate tokens for different applications
-
-## License
-
-MIT License - see [LICENSE](LICENSE) file for details.
-
-## Contributing
+## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Author
+---
 
-consigcody94
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+---
+
+## 👤 Author
+
+**consigcody94**
+
+---
+
+<p align="center">
+  <i>Wave your wand, export your designs.</i>
+</p>
